@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Neve prova</title>
+    
+    <script type="text/javascript">
+        window.addEventListener("load", windowLoaded, false);
+        
+        function windowLoaded() {
+            canvasApp();
+        }
+        
+        var lastRun;
+        
+        function canvasApp(){
+            
+            function showFPS(){
+                ctx.fillStyle = "Red";
+                ctx.font      = "normal 16pt Arial";
+                
+                ctx.fillText(fps + " fps", 10, 26);
+            }
+            
+
+            
+            window.requestAnimFrame = (function(){
+                return  window.requestAnimationFrame       ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame    ||
+                function( callback ){
+                    window.setTimeout(callback, 1000 / 60);
+                    };
+            })();
+            
+            
+            
+            canvas = document.getElementById("canvas");
+            ctx = canvas.getContext('2d');
+            
+            function createBeadSnow(locX, locY){
+                var randomX = Math.random()*canvas.width;
+                var randomY = Math.random()*canvas.height;
+                var randomR = 1+(Math.random()*2)%3;    
+                var randomW = (.5 + Math.random()*1.5)%1.5;   
+                var randDir = (Math.random() - 0.5 < 0)? -1: 1;
+                
+                return {
+                    x: locX || randomX,
+                    y: locY || randomY,
+                    radius: randomR,
+                    weight: randomW,
+                    dir: randDir
+                }
+            }
+            
+            function printBeadSnow(beadSnow){
+                console.log("--------------");
+                for (i in beadSnow){
+                    console.log(i+": "+beadSnow[i]);
+                }
+                console.log("--------------");
+            }
+            
+            function initScenario() {
+                var num_beads = 800;
+                for (var i=0; i<num_beads; i++){
+                    beads.push(createBeadSnow());
+                    //printBeadSnow(beads[i]);
+                }
+            }
+            
+            function render() {
+                ctx.save();
+                //ctx.fillStyle = "rgb(135, 206, 250)";
+                ctx.fillStyle = "rgb(0, 0, 0)";
+                ctx.fillRect(0,0,canvas.width, canvas.height);
+                ctx.restore();
+                
+                ctx.save();
+                ctx.fillStyle = "rgba(255,250,250,0.8)";
+                drawBeads();
+                ctx.restore();
+            }
+            
+            function drawBeads() {
+                ctx.beginPath();
+                for (var i=0; i<beads.length; i++){
+                    ctx.moveTo(beads[i].x, beads[i].y);
+                    ctx.arc(beads[i].x, beads[i].y, beads[i].radius, 0, Math.PI*2, true);
+                }
+                ctx.fill();
+            }
+            
+            function updateBeads() {
+                for (var i= 0; i<beads.length; i++){
+                    if (beads[i].y > canvas.height + beads[i].radius) {
+                        beads[i].y = -beads[i].radius
+                        beads[i].x = Math.random()*canvas.width*2 - canvas.width/2;
+                        beads[i].radius = 1+(Math.random()*2)%3;
+                        beads[i].weight = (.5 + Math.random()*1.5)%1.5;
+                        beads[i].dir = (Math.random() - 0.5 < 0)? -1: 1;
+                    }
+                    
+                    angle = 0.1;
+                    beads[i].y += 1 + Math.cos(angle+beads[i].weight) + beads[i].radius/2;
+                    beads[i].x += beads[i].dir * Math.sin(angle)*2;
+                }
+            }
+            
+            //init phase
+            var beads = [];
+            initScenario();
+            
+            //animationLoop
+            var lastRender = Date.now();
+            function snowFall() {
+                if(!lastRun) {
+                    lastRun = new Date().getTime();
+                    //requestAnimFrame(snowFall);
+                    return;
+                }
+                var delta = (new Date().getTime() - lastRun)/1000;
+                lastRun = new Date().getTime();
+                fps = 1/delta;
+                
+                //var delta = Date.now() - lastRender;
+                render();
+                updateBeads();
+                
+                showFPS();
+                //requestAnimFrame(snowFall);
+            }
+            //snowFall();
+            setInterval(snowFall,33);
+        }
+    </script>
+</head>
+
+<body>
+    <canvas id="canvas" width="900" height="560">
+        Your browser does not support canvas element
+    </canvas>
+</body>
+</html>

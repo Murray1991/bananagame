@@ -1,0 +1,9 @@
+<svg height="300" width="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+
+  <title>Layer 1</title>
+  <ellipse ry="145" rx="195" id="svg_1" cy="150" cx="200" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="#3f7f00"/>
+  <g transform="translate(-140,-90)">
+  <text stroke="#000000" transform="matrix(71.5738 0 0 33.0577 -15925.8 -7281.94)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="2" id="svg_2" y="228" x="227" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#ffff00">PLAY</text>
+ </g>
+</svg>

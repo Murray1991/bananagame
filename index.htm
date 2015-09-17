@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Banana Game</title>
+    <script type="text/javascript">
+	window.addEventListener("load", setGlobalVar, false);
+	
+	function setGlobalVar(){
+	    svg = document.getElementById("svgRoot");
+	    svgBar = document.getElementById("svgBar");
+	}
+    </script>
+    <script type="text/javascript" src="modernizr.custom.79653.js"> </script>
+    <script type="text/javascript" src="utils.js"> </script>
+    <script type="text/javascript" src="sounds.js"></script>
+    <script type="text/javascript" src="GameLevelEditor.js"> </script>
+    <script type="text/javascript" src="game-objects/behaviors.js"> </script>
+    <script type="text/javascript" src="game-objects/Star.js"> </script>
+    <script type="text/javascript" src="game-objects/Enemy.js"> </script>
+    <script type="text/javascript" src="game-objects/Tile.js"> </script>
+    <script type="text/javascript" src="game-objects/Hero.js"> </script>
+    <script type="text/javascript" src="game-objects/AnimatedObject.js"> </script>
+    <script type="text/javascript" src="levels.js"> </script>
+    <script type="text/javascript" src="inputManager.js"> </script>
+    <script type="text/javascript" src="clouds.js"> </script>
+    <script type="text/javascript" src="abstractGameObject.js"> </script>
+    
+    <script type="text/javascript" src="game.js"> </script>
+    
+    <style type="text/css">
+        html, body{
+            background: #000 url(http://i.imgur.com/XgUk6.jpg) top center no-repeat fixed;
+        	margin: 0;
+        	padding: 0;
+            /*text-align: center;*/
+        	/*background: #202020;*/
+        }	
+
+
+
+        #wrapper{
+            position: relative;
+            margin: 0 auto;
+            top: 10px;
+            width:900px; 
+            height:600px;
+        }
+        
+        #fps_counter {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+            color: white;
+            font-family: 'badaboom', cursive;
+        }
+
+        #canvas{
+            position:absolute;
+            border: solid 1px black;
+            top:0; left:0;
+            /*margin-left: -450px; */
+        }
+
+        #svgRoot{
+            position: absolute;
+            border: solid 1px black;
+            top:0; left:0;
+            /*right: -64px;*/
+            /*margin-left: -450px;*/     
+        }
+        
+        #svgButtons{
+            position: absolute;
+            top:0; left:0;
+            /*right: -64px;*/
+            /*margin-left: -450px;*/     
+        }
+
+        #svgBar{
+            position: absolute;
+            right: 0px;
+        }
+
+        #vel_enemy{
+            -moz-user-select: none; 
+            -khtml-user-select: none; 
+            -webkit-user-select: none; 
+            -o-user-select: none;
+
+
+            display: none; 
+            position: absolute; 
+            z-index: 10; 
+            /*background:black; */
+            top: 500px; 
+            left: 300px;
+            width: 56px;
+            /*opacity:0.8; */
+            /*color:white;*/
+        }
+
+        #levelmoveup{
+            cursor:pointer;
+        }
+
+        #levelmovedown{
+            cursor:pointer;
+        }
+
+    .menu {
+        font-family: badaboom;
+        cursor: pointer;
+        text-shadow:
+                3px 3px 0 #000,
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000; 
+    }
+
+    .game_over{
+            font-size: 50px;
+            font-family: badaboom;
+        
+        /*text-stroke: 1px black;*/
+            fill: white;
+            text-shadow:
+                3px 3px 0 #000,
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;    
+    }
+
+    #gameMode text {
+        font-family: badaboom;
+        font-size: 40px;
+        
+    }
+
+    .menu {
+       -moz-user-select: none; 
+        -khtml-user-select: none; 
+        -webkit-user-select: none; 
+        -o-user-select: none;  
+    }
+
+    .textbutton {
+        -moz-user-select: none; 
+        -khtml-user-select: none; 
+        -webkit-user-select: none; 
+        -o-user-select: none; 
+    }
+	
+	.textbutton rect{
+	    fill: rgba(0,0,0,0);
+	    stroke:rgb(0,0,0);
+	    stroke-width:2;
+        cursor: pointer;
+	}
+
+    .textbutton rect:hover{
+        stroke:rgb(255,255,0);
+    }
+
+    #transformationControls{
+        cursor:pointer;
+    }
+
+    line {
+        fill:rgba(0,0,0,0);
+        stroke:black;
+        stroke-width:4
+    }
+
+	.textbutton text{
+	    font-size: 16px;
+	    font-family: badaboom;
+	    
+        /*text-stroke: 1px black;*/
+        fill: white;
+        text-shadow:
+        3px 3px 0 #000,
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+	}
+
+/*    form{
+        background: url('images/thinking-cloud.png') no-repeat 0 0;
+        text-align: right;
+    }*/
+	
+	.button rect{
+	    fill: rgba(255, 255, 255, 0);
+	    stroke:rgb(0,0,0);
+	    stroke-width:2;
+	}
+	
+	.game_over rect{
+	    fill: rgba(255,255,255,0);
+	    stroke:rgb(0,0,0);
+	    stroke-width:2;
+	}
+    
+    .option {
+        cursor: pointer;
+    }
+
+	.switcher {
+        cursor: pointer;
+    }
+
+    .button {
+        cursor: pointer;
+    }
+    @font-face{
+        font-family: "badaboom";
+        src: url("fonts/BADABB__.TTF");
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <canvas id="canvas" width="900" height="600">
+            Your browser does not support canvas element
+        </canvas>
+
+        <div id="vel_enemy">
+            <img src="images/thinking-cloud.png" height="100px" width="100px" style="position:absolute">
+
+	       <form>
+	           <div style="position:absolute; padding:30px; margin:-5px; font-size:14pt; font-family:badaboom;">
+		          <text> velocity </text>
+		          <input id="vel_enemy_value" type="number" min="0" max="3">
+	           </div>
+	       </form>
+        </div>
+    
+    
+        <svg id="svgRoot" width="900" height="600">
+            
+            
+            <g class = "menu">
+                <g>
+                    <text x="450" y="255" font-size="50" fill="white" text-anchor="middle"> PLAY </text>
+                    <rect id="menu_play" class="menu_button" x="300" y="200" height="70" width="300" style="fill: rgba(255,255,255,0); stroke:rgb(0,0,0); stroke-width:2;" />
+                </g>
+                
+                <g>
+                    <text x="450" y="355" font-size="50" fill="white" text-anchor="middle" > EDITOR </text>
+                    <rect id="menu_editor" class="menu_button" x="300" y="300" height="70" width="300" style="fill: rgba(255,255,255,0); stroke:rgb(0,0,0); stroke-width:2;"></rect>
+                </g>
+                
+                <g>
+                    <text x="450" y="455" font-size="50" fill="white" text-anchor="middle"> HELP </text>
+                    <rect id="menu_help" class="menu_button" x="300" y="400" height="70" width="300" style="fill: rgba(255,255,255,0); stroke:rgb(0,0,0); stroke-width:2;" />
+                </g>
+            </g>
+
+  
+            
+        </svg>
+         
+        <svg id="svgButtons" pointer-events="none">
+            <!-- bottoni visibili ad ogni stato del gioco -->
+            <image id="back" class="button" pointer-events="visible" xlink:href="svg/iconmonstr-arrow-57-icon.svg" x="10" y="10" height="25px" width="25px"/>
+            <image id="note" class="button" pointer-events="visible" xlink:href="svg/iconmonstr-audio-7-icon.svg" x="40" y="10" height="25px" width="25px"/>
+            <line id="volumeline" x1="40" pointer-events="none" y1="10" x2="65" y2="35" style="stroke:rgb(255,0,0);stroke-width:2; display:none" />
+
+            <!-- bottoni per zoomin e zoomout e traslazioni visibili solo in editor mode  -->
+            <g id="transformationControls" style="display:none">
+
+                <g id = "zoomin" pointer-events="visible" transform="translate(810,10)">
+                    <line x1="10" y1="5" x2="10" y2="15" style="fill:rgba(0,0,0,0);stroke:black;stroke-width:4" />
+                    <line x1="5" y1="10" x2="15" y2="10" style="fill:rgba(0,0,0,0);stroke:black;stroke-width:4"/>
+                    <ellipse cx="10" cy="10" rx="10" ry="10" style="fill:rgba(0,0,0,0);stroke:black;stroke-width:4" />
+                </g>
+
+                <g id = "zoomout" pointer-events="visible" transform="translate(810,40)">
+                    <line x1="5" y1="10" x2="15" y2="10" style="fill:rgba(0,0,0,0);stroke:black;stroke-width:4"/>
+                    <ellipse cx="10" cy="10" rx="10" ry="10" style="fill:rgba(0,0,0,0);stroke:black;stroke-width:4" />
+                </g>
+
+
+                <g transform="translate(-10,-15)">
+                    <g id = "moveup" pointer-events="visible" transform="translate(763,45) rotate(-90,0,0)">
+                        <image xlink:href="svg/right-arrow.svg" height="25px" width="25px" />
+                    </g>
+                    
+                    <g id = "movedown" pointer-events="visible" transform="translate(787,60) rotate(90,0,0)">
+                        <image xlink:href="svg/right-arrow.svg" height="25px" width="25px" />
+                    </g>
+
+                    <g id = "moveleft" pointer-events="visible" transform="translate(770,40) scale(-1,1)">
+                        <image xlink:href="svg/right-arrow.svg" height="25px" width="25px" />
+                    </g>
+
+                    <g id = "moveright" pointer-events="visible" transform="translate(780,40)">
+                        <image xlink:href="svg/right-arrow.svg" height="25px" width="25px" />
+                    </g>
+                </g>
+            </g>
+
+            <g id = "levelmoveup" pointer-events="visible" transform="translate(863,45) rotate(-90,0,0)" style="display:none;">
+                    <image xlink:href="svg/right-arrow.svg" height="25px" width="25px" />
+                </g>
+                    
+            <g id = "levelmovedown" pointer-events="visible" transform="translate(887,60) rotate(90,0,0)" style="display:none;">
+                    <image xlink:href="svg/right-arrow.svg" height="25px" width="25px" />
+            </g>
+
+        </svg>
+        
+        <svg id="svgBar" width="64" height="600">
+    	
+        </svg>
+
+    </div>
+        
+</body>
+</html>
