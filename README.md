@@ -1,5 +1,5 @@
 # Banana
-Banana is a simple project made few years ago for a universitary exam. It's a platform 2d game with game editor that uses HTML5 canvas with javascript API. No additional frameworks are used.
+Banana is a simple project made few years ago for a universitary exam. It's a platform 2d game that uses HTML5 canvas with javascript API. No additional frameworks are used.
 
 ## The goal
 The goal is to take all the stars, that's all folks! You can find [here](http://onlybananas.altervista.org/bananagame/) a playable version of this game. It works on chrome only.
