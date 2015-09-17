@@ -3,7 +3,7 @@ Banana is a simple project made few years ago for a universitary exam. It's a pl
 
 ![ScreenShot](http://onlybananas.altervista.org/bananaintro.png)
 
-![ScreenShot](http://onlybananas.altervista.org/bananagame.png)
+![ScreenShot](http://onlybananas.altervista.org/bananagame1.png)
 
 ## The goal
 The goal is to take all the stars, that's all folks! You can find [here](http://onlybananas.altervista.org/bananagame/) a playable version of this game. It works on chrome only.
